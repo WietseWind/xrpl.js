@@ -8,6 +8,7 @@ import {
   TRANSACTION_TYPES,
   DEFAULT_DEFINITIONS,
 } from './enums'
+import type { TxFlags } from './enums/xrpl-definitions-base'
 import { XrplDefinitions } from './enums/xrpl-definitions'
 import { coreTypes } from './types'
 import { nativeAsset } from './nativeasset'
@@ -141,3 +142,5 @@ export {
   coreTypes,
   nativeAsset,
 }
+
+export type { TxFlags }

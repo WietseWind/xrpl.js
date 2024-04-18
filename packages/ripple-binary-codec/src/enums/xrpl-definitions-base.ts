@@ -8,12 +8,20 @@ import {
   TRANSACTION_RESULT_WIDTH,
 } from './constants'
 
+interface TxFlags {
+  [TransactionType: string]: {
+    [Flag: string]: number
+  }
+}
+
 interface DefinitionsData {
   TYPES: Record<string, number>
   LEDGER_ENTRY_TYPES: Record<string, number>
   FIELDS: (string | FieldInfo)[][]
   TRANSACTION_RESULTS: Record<string, number>
   TRANSACTION_TYPES: Record<string, number>
+  TRANSACTION_FLAGS_INDICES: TxFlags
+  TRANSACTION_FLAGS: TxFlags
 }
 
 /**
@@ -35,6 +43,10 @@ class XrplDefinitionsBase {
   transactionNames: string[]
   // Maps serializable types to their TypeScript class implementation
   dataTypes: Record<string, typeof SerializedType>
+  // Transaction Set/Clear flags
+  transactionFlagsIndices: TxFlags
+  // Transaction flags
+  transactionFlags: TxFlags
 
   /**
    * Present rippled types in a typed and updatable format.
@@ -51,6 +63,9 @@ class XrplDefinitionsBase {
     enums: DefinitionsData,
     types: Record<string, typeof SerializedType>,
   ) {
+    this.transactionFlagsIndices = enums?.TRANSACTION_FLAGS_INDICES
+    this.transactionFlags = enums?.TRANSACTION_FLAGS
+
     this.type = new BytesLookup(enums.TYPES, TYPE_WIDTH)
     this.ledgerEntryType = new BytesLookup(
       enums.LEDGER_ENTRY_TYPES,
@@ -109,3 +124,5 @@ export {
   Bytes,
   BytesLookup,
 }
+
+export type { TxFlags }
